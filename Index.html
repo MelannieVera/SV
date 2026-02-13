@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi persona especial ❤️</title>
+
+<style>
+
+/* ===== FONDO ANIMADO ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CORAZONES FONDO */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    font-size: 20px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* TARJETA PRINCIPAL */
+.container {
+    position: relative;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.25);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 400px;
+    color: white;
+    animation: aparecer 1s ease;
+}
+
+@keyframes aparecer {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+/* BOTONES */
+button {
+    padding: 14px 30px;
+    font-size: 18px;
+    margin: 10px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* BOTON SI */
+#si {
+    background: #ff4d6d;
+    color: white;
+    box-shadow: 0 5px 15px rgba(255,0,80,0.5);
+}
+
+#si:hover {
+    transform: scale(1.1);
+}
+
+/* BOTON NO */
+#no {
+    background: #495057;
+    color: white;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CONTENIDO MODAL */
+.modal-content {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+    width: 85%;
+    max-width: 350px;
+    animation: zoom 0.5s ease;
+    color: black;
+}
+
+@keyframes zoom {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close {
+    float: right;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+@media(max-width:480px){
+    button {
+        width: 100%;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="container">
+    <h1>¿Me amas? ❤️</h1>
+    <button id="si">Sí</button>
+    <button id="no">No</button>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="close" id="cerrar">❌</span>
+        <h2>💖 Sabía que me amabas,<br>pero yo te amo más 💖</h2>
+    </div>
+</div>
+
+<script>
+
+/* ===== CORAZONES FONDO ===== */
+function crearCorazon(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=> heart.remove(),6000);
+}
+setInterval(crearCorazon,500);
+
+/* ===== BOTONES ===== */
+let tamaño = 18;
+
+const si = document.getElementById("si");
+const no = document.getElementById("no");
+const modal = document.getElementById("modal");
+const cerrar = document.getElementById("cerrar");
+const container = document.querySelector(".container");
+
+/* BOTON SI */
+si.onclick = () =>{
+    modal.style.display = "flex";
+}
+
+/* CERRAR MODAL */
+cerrar.onclick = () =>{
+    modal.style.display = "none";
+}
+
+/* BOTON NO SE MUEVE SOLO DENTRO DEL CUADRO */
+no.onmouseover = () => {
+
+    const contRect = container.getBoundingClientRect();
+    const noRect = no.getBoundingClientRect();
+
+    const maxX = contRect.width - noRect.width;
+    const maxY = contRect.height - noRect.height;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    no.style.position = "absolute";
+    no.style.left = randomX + "px";
+    no.style.top = randomY + "px";
+
+    tamaño += 4;
+    si.style.fontSize = tamaño + "px";
+}
+
+</script>
+
+</body>
+</html>
