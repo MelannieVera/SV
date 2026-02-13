@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️</title>
+
+<style>
+
+/* ===== FONDO ===== */
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#ff758c,#ff7eb3);
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* ===== CORAZONES ===== */
+.heart{
+    position:absolute;
+    color:rgba(255,255,255,0.6);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float{
+    0%{ transform: translateY(100vh); opacity:0; }
+    50%{ opacity:1; }
+    100%{ transform: translateY(-10vh); opacity:0; }
+}
+
+/* ===== TARJETA ===== */
+.container{
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.25);
+    padding:50px 30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+    width:95%;
+    max-width:420px;
+    color:white;
+}
+
+/* BOTONES */
+.botones{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+/* BOTONES GENERALES */
+button{
+    padding:16px;
+    font-size:18px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.3s;
+    width:120px;
+}
+
+/* SI */
+#si{
+    background:#ff4d6d;
+    color:white;
+}
+
+/* NO */
+#no{
+    background:#495057;
+    color:white;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.7);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:85%;
+    max-width:320px;
+    color:black;
+}
+
+.close{
+    float:right;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>¿Me amas? ❤️</h1>
+
+    <div class="botones">
+        <button id="si">Sí</button>
+        <button id="no">No</button>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <span class="close" id="cerrar">❌</span>
+        <h2>💖 Sabía que me amabas, pero yo te amo más 💖</h2>
+    </div>
+</div>
+
+<script>
+
+/* ===== CORAZONES ===== */
+function crearCorazon(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤️";
+
+    heart.style.left = Math.random()*100+"vw";
+    heart.style.fontSize = Math.random()*15+15+"px";
+    heart.style.animationDuration = Math.random()*3+3+"s";
+
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(crearCorazon,500);
+
+/* ===== BOTONES ===== */
+let tamañoSi = 18;
+let tamañoNo = 18;
+
+const si = document.getElementById("si");
+const no = document.getElementById("no");
+const modal = document.getElementById("modal");
+const cerrar = document.getElementById("cerrar");
+
+/* BOTON SI */
+si.onclick = ()=>{
+    modal.style.display="flex";
+}
+
+/* CERRAR MODAL */
+cerrar.onclick = ()=>{
+    modal.style.display="none";
+}
+
+/* FUNCION CUANDO INTENTAN TOCAR NO */
+function tocarNo(){
+
+    /* VIBRACION */
+    if(navigator.vibrate){
+        navigator.vibrate([120,60,120]);
+    }
+
+    /* BOTON NO SE HACE MAS PEQUEÑO */
+    tamañoNo -= 2;
+    no.style.fontSize = tamañoNo + "px";
+    no.style.width = tamañoNo * 5 + "px";
+    no.style.padding = tamañoNo / 2 + "px";
+
+    /* DESAPARECER */
+    if(tamañoNo <= 6){
+        no.style.display = "none";
+    }
+
+    /* BOTON SI CRECE */
+    tamañoSi += 2;
+    si.style.fontSize = tamañoSi + "px";
+}
+
+no.addEventListener("mouseover", tocarNo);
+no.addEventListener("touchstart", tocarNo);
+
+</script>
+
+</body>
+</html>
